@@ -12,16 +12,21 @@ jobs:
           ALLOWED_ORIGINS: '*'
           RAILS_ENV: test
           PGHOST: 127.0.0.1
-          PGUSER: postgres
+          PGUSER: root
       - image: circleci/postgres:12
         environment:
-          POSTGRES_PASSWORD: password
+          POSTGRES_USER: root
+          POSTGRES_DB: circle-test_test
     steps:
       - checkout
       - ruby/install-deps
       - ruby/rubocop-check:
           format: progress
           label: Inspecting with Rubocop
+
+      - run:
+          name: Install dependencies
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
 
       - run: sudo apt install -y postgresql-client || true
 
