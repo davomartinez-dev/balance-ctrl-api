@@ -7,7 +7,7 @@ RSpec.describe BalancesController, type: :controller do
 
       before { log_in_as(user) }
 
-      it 'returns a success response' do
+      it "returns a success response" do
         balance_1 = BalanceFactory.create(user_id: user.id)
         balance_2 = BalanceFactory.create(user_id: user.id)
 
