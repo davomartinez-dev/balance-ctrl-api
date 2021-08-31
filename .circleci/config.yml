@@ -43,6 +43,6 @@ jobs:
                               --format progress \
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 workflows:
-  run_tests:
+  test_and_lints:
     jobs:
       - test_and_lints
