@@ -1,0 +1,48 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@1.1.3
+
+jobs:
+  test_and_lints:
+    parallelism: 3
+    docker:
+      - image: circleci/ruby:2.7.3
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          SECRET_KEY_BASE: '$(bundle exec rake secret)'
+          ALLOWED_ORIGINS: '*'
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+      - image: circleci/postgres:12
+        environment:
+          POSTGRES_PASSWORD: $POSTGRES_TEST_DB_PASSWORD
+
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rubocop-check:
+          format: progress
+          label: Inspecting with Rubocop
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run: sudo apt install -y postgresql-client || true
+
+      - run:
+          name: Database setup
+          command: bundle exec rake db:create db:schema:load --trace
+
+      - run:
+          name: Run rspec
+          command: |
+            bundle exec rspec --profile 10 \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+workflows:
+  run_tests:
+    jobs:
+      - test_and_lints

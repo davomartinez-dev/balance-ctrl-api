@@ -1,28 +1,41 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
 default: &default
   adapter: postgresql
-  encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
   reconnect: true
+  encoding: unicode
 
 development:
   <<: *default
-  database: <%= ENV["DB_DEVELOPMENT"] %>
+  database: balance-control-api_development
   host: localhost
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
+
 test:
   <<: *default
-  username: <%= ENV["DB_USER_NAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
-  database: <%= ENV["DB_TESTING"] %>
+  host: localhost
+  database: balance-control-api_test
+  password: <%= ENV['POSTGRES_TEST_DB_PASSWORD'] %>
+
+staging:
+  <<: *default
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
+
+integration:
+  <<: *default
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
 
 production:
   <<: *default
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
