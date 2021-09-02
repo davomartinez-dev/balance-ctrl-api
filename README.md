@@ -69,7 +69,7 @@ This is an API to keep track of the incomings and expenses that a user makes.
 The main goal of this API is to allow front-end developers to set up a backend in a quick and easy way in order to start consuming data and focus on the application client side logic not in the back.
 Also, it is a good option to have a server running locally for the development stage, in this way you ensure that the access points are reliable and fast.
 
-The main features of this API are:
+The main features of this API:
 
 - Admin user.
 - Authentication via JWT Tokens restricting access to mutable data operations (create, update, destroy).
