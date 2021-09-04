@@ -130,7 +130,7 @@ To get a local copy up and running follow these simple steps.
 To get started with the app, clone the repo and then install the needed gems:
 
 ```ruby
-$ bundle
+$ bundle install
 ```
 
 Next, migrate the database:
