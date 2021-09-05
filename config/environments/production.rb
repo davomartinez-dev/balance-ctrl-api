@@ -1,7 +1,12 @@
 Rails.application.configure do
+  #config.cache_store = :redis_store, "redis://#{ENV['REDIS_ENDPOINT']}:6379/0"
+  config.session_store :redis_store, servers: [
+    { host: ENV['REDIS_ENDPOINT'], port: 6379, db: 1 }
+  ], key: ENV['APP_SESSION_KEY']
+
+  config.active_record.cache_versioning = false
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.allowed_cors_origins = ENV['FRONTEND_HOST']
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -39,7 +44,6 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -83,4 +87,5 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  config.force_ssl = true
 end

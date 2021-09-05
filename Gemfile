@@ -7,14 +7,14 @@ gem 'bcrypt'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'faker'
 gem 'fast_jsonapi'
-gem 'figaro'
-gem 'jwt'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'rack-cors'
 gem 'raddocs'
 gem 'rails', '~> 6.1', '>= 6.1.1'
 gem 'rspec_api_documentation'
 gem 'rswag'
+gem 'hiredis'
+gem 'redis-rails'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
